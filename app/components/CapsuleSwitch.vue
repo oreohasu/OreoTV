@@ -65,14 +65,13 @@ onMounted(() => {
   <div
     ref="containerRef"
     p1 rounded-full inline-flex relative
-    border="~ solid #e1e4e8 dark:#36363a"
-    class="bg-#eee dark:bg-black"
+    class="bg-#f5f5f5 dark:bg-#262626"
     :class="props.class"
   >
     <div
       v-if="indicatorStyle.width > 0"
-      rounded-full bg-white transition-all duration-250 ease-out bottom-1 top-1 absolute
-      class="dark:(border border-#e1e4e8 bg-transparent)"
+      rounded-full bg-white transition-left duration-250 ease-out bottom-1 top-1 absolute
+      class="dark:bg-#121212"
       :style="{
         left: `${indicatorStyle.left}px`,
         width: `${indicatorStyle.width}px`,
@@ -83,11 +82,11 @@ onMounted(() => {
       v-for="(opt, index) in options"
       :key="opt.value"
       :ref="el => setButtonRef(el, index)"
-      text-sm font-bold p2 rounded-full w20 cursor-pointer transition-all duration-250 relative
+      text-sm font-bold p2 rounded-full w20 cursor-pointer transition-opacity duration-250 relative
       :class="[
         modelValue === opt.value
           ? 'dark:text-white'
-          : ' hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100',
+          : 'op50 hover:op75',
       ]"
       @click="handleChange(opt.value)"
     >
