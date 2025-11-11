@@ -13,6 +13,7 @@ catalogs:
     '@vite-pwa/nuxt': ^1.0.7
     '@vueuse/nuxt': ^14.0.0
     nuxt: ^4.2.1
+    reka-ui: ^2.6.0
     unocss: ^66.5.5
     unplugin: ^2.3.10
     vite: npm:rolldown-vite@latest
@@ -34,3 +35,4 @@ onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
   - unrs-resolver
+  - vue-demi

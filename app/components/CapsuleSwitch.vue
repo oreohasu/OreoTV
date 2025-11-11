@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance } from 'vue'
+import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 
 interface Option {
   label: string
@@ -16,81 +16,79 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const containerRef = ref<HTMLDivElement>()
-const buttonRefs = ref<HTMLButtonElement[]>([])
+const triggerRefs = ref<(HTMLElement | null)[]>([])
+const listRef = ref<HTMLElement>()
 const indicatorStyle = ref({ left: 0, width: 0 })
 
 const activeIndex = computed(() =>
   props.options.findIndex(opt => opt.value === props.modelValue),
 )
 
-function updateIndicatorPosition() {
-  if (activeIndex.value >= 0 && buttonRefs.value[activeIndex.value] && containerRef.value) {
-    const button = buttonRefs.value[activeIndex.value]
-    const container = containerRef.value
+function updateIndicator() {
+  const trigger = triggerRefs.value[activeIndex.value]
+  const list = (listRef.value as any)?.$el || listRef.value
 
-    const buttonRect = button?.getBoundingClientRect()
-    const containerRect = container.getBoundingClientRect()
+  if (!trigger || !list) {
+    return
+  }
 
-    if (buttonRect && buttonRect.width > 0) {
-      const left = buttonRect.left - containerRect.left
-      indicatorStyle.value = {
-        left: left % 2 === 0 ? left : left - 1,
-        width: buttonRect.width,
-      }
-    }
+  const triggerRect = trigger?.getBoundingClientRect()
+  const listRect = list.getBoundingClientRect()
+
+  indicatorStyle.value = {
+    left: triggerRect.left - listRect.left,
+    width: triggerRect.width,
   }
 }
 
-function handleChange(value: string) {
-  emit('update:modelValue', value)
-}
-
-function setButtonRef(el: Element | ComponentPublicInstance | null, index: number) {
-  if (el) {
-    buttonRefs.value[index] = el as HTMLButtonElement
-  }
+function setTriggerRef(el: any, index: number) {
+  triggerRefs.value[index] = el?.$el || el
 }
 
 watch(activeIndex, () => {
-  nextTick(updateIndicatorPosition)
+  nextTick(updateIndicator)
 })
 
 onMounted(() => {
-  nextTick(updateIndicatorPosition)
+  nextTick(updateIndicator)
 })
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    p1 rounded-full inline-flex relative
-    class="bg-#f5f5f5 dark:bg-#262626"
-    :class="props.class"
+  <TabsRoot
+    :model-value="modelValue"
+    @update:model-value="(val) => val && emit('update:modelValue', val)"
   >
-    <div
-      v-if="indicatorStyle.width > 0"
-      rounded-full bg-white transition-left duration-250 ease-out bottom-1 top-1 absolute
-      class="dark:bg-#121212"
-      :style="{
-        left: `${indicatorStyle.left}px`,
-        width: `${indicatorStyle.width}px`,
-      }"
-    />
-
-    <button
-      v-for="(opt, index) in options"
-      :key="opt.value"
-      :ref="el => setButtonRef(el, index)"
-      text-sm font-bold p2 rounded-full w20 cursor-pointer transition-opacity duration-250 relative
-      :class="[
-        modelValue === opt.value
-          ? 'dark:text-white'
-          : 'op50 hover:op75',
-      ]"
-      @click="handleChange(opt.value)"
+    <TabsList
+      ref="listRef"
+      p1 rounded-full inline-flex relative
+      class="bg-#f5f5f5 dark:bg-#262626"
+      :class="props.class"
     >
-      {{ opt.label }}
-    </button>
-  </div>
+      <div
+        v-show="indicatorStyle.width > 0"
+        rounded-full bg-white transition-left duration-250 ease-out bottom-1 top-1 absolute
+        class="dark:bg-#121212"
+        :style="{
+          left: `${indicatorStyle.left}px`,
+          width: `${indicatorStyle.width}px`,
+        }"
+      />
+
+      <TabsTrigger
+        v-for="(opt, index) in options"
+        :key="opt.value"
+        :ref="(el) => setTriggerRef(el, index)"
+        :value="opt.value"
+        text-sm font-semibold p2 rounded-full min-w-18 cursor-pointer transition-opacity duration-250 relative z-1
+        :class="[
+          modelValue === opt.value
+            ? 'text-gray-900 dark:text-white'
+            : 'op50 hover:op75',
+        ]"
+      >
+        {{ opt.label }}
+      </TabsTrigger>
+    </TabsList>
+  </TabsRoot>
 </template>

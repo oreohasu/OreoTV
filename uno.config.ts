@@ -24,10 +24,17 @@ export default defineConfig({
     presetIcons(),
     presetTypography(),
     presetWebFonts({
-      provider: 'bunny',
       fonts: {
-        sans: 'DM Sans',
-        mono: 'DM Mono',
+        sans: [
+          {
+            name: 'DM Sans',
+            provider: 'bunny',
+          },
+          {
+            name: 'sans-serif',
+            provider: 'none',
+          },
+        ],
       },
       processors: createLocalFontProcessor(),
     }),
