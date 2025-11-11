@@ -4,6 +4,14 @@ definePageMeta({
 })
 
 const online = useOnline()
+
+const { data } = await useFetch('/api/douban/bangumi/calendar.list')
+
+const activeTab = ref('home')
+const options = [
+  { label: '首页', value: 'home' },
+  { label: '收藏', value: 'favorites' },
+]
 </script>
 
 <template>
@@ -26,6 +34,7 @@ const online = useOnline()
         </div>
       </template>
     </ClientOnly>
+    <CapsuleSwitch v-model="activeTab" :options="options" />
     <InputEntry />
   </div>
 </template>
