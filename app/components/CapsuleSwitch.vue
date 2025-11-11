@@ -1,3 +1,5 @@
+// TODO: https://github.com/vbenjs/vue-vben-admin/blob/main/packages/%40core/ui-kit/shadcn-ui/src/components/segmented/segmented.vue
+
 <script setup lang="ts">
 import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 
