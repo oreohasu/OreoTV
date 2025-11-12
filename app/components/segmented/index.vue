@@ -20,15 +20,15 @@ const getDefaultValue = computed(() => {
     :default-value="getDefaultValue"
   >
     <TabsList
-      class="px1 py2 rounded-full inline-flex shadow-xs relative dark:bg-#262626"
-      border="~ solid #e5e5e5 dark:#36363a"
+      mb8 px1 py2 rounded-full inline-flex shadow-xs relative
+      border="~ solid #e5e5e5 dark:#36363a dark:bg-#262626"
     >
       <TabsIndicator />
       <TabsTrigger
         v-for="tab in tabs"
         :key="tab.value"
         :value="tab.value"
-        class="text-sm font-semibold px4 py1 rounded-full cursor-pointer transition-opacity duration-250 relative z-20"
+        text-sm font-semibold px4 py1 rounded-full cursor-pointer transition-opacity duration-250 relative z-20
         :class="[
           activeTab === tab.value
             ? 'text-gray-900 dark:text-white'

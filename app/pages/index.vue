@@ -5,14 +5,11 @@ definePageMeta({
 
 const online = useOnline()
 
-const { data } = await useFetch('/api/douban/bangumi/calendar.list')
+const router = useRouter()
 
-const activeTab = ref('home')
-const tabs = [
-  { label: '首页', value: 'home' },
-  { label: '收藏', value: 'favorites' },
-  { label: '最近热门', value: 'hot' },
-]
+function go() {
+  router.push('/bangumi')
+}
 </script>
 
 <template>
@@ -35,7 +32,14 @@ const tabs = [
         </div>
       </template>
     </ClientOnly>
-    <Segmented v-model="activeTab" :tabs="tabs" />
+    <div>
+      <button
+        text-sm btn m-3
+        @click="go"
+      >
+        GO
+      </button>
+    </div>
     <InputEntry />
   </div>
 </template>
