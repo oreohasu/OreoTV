@@ -8,9 +8,10 @@ const online = useOnline()
 const { data } = await useFetch('/api/douban/bangumi/calendar.list')
 
 const activeTab = ref('home')
-const options = [
+const tabs = [
   { label: '首页', value: 'home' },
   { label: '收藏', value: 'favorites' },
+  { label: '最近热门', value: 'hot' },
 ]
 </script>
 
@@ -34,7 +35,7 @@ const options = [
         </div>
       </template>
     </ClientOnly>
-    <CapsuleSwitch v-model="activeTab" :options="options" />
+    <Segmented v-model="activeTab" :tabs="tabs" />
     <InputEntry />
   </div>
 </template>
