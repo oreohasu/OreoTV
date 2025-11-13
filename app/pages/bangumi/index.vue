@@ -20,22 +20,23 @@ const currentTitlte = computed(() => {
   return activeTab.value === 'calendar' ? '来自 Bangumi 番组计划的精选内容' : '来自豆瓣的精选内容'
 })
 
-const weekdays = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+const { data: calendarData } = await useFetch('/api/douban/bangumi/calendar.list')
+
+const weekdays = computed((): SegmentedItem[] => {
+  if (calendarData.value) {
+    return calendarData.value.map(item => ({ label: item.weekday.cn, value: item.weekday.id - 1 }))
+  }
+  return []
+})
 
 const currentWeekDay = computed(() => {
   return (new Date().getDay() || 7) - 1
 })
 const selectedWeekDay = ref(currentWeekDay.value)
 
-const { data: calendarData } = await useFetch('/api/douban/bangumi/calendar.list')
-
 const currentCalendarData = computed(() => {
   return calendarData.value?.at(selectedWeekDay.value)
 })
-
-function handleSelectWeekDay(idx: number) {
-  selectedWeekDay.value = idx
-}
 </script>
 
 <template>
@@ -48,19 +49,9 @@ function handleSelectWeekDay(idx: number) {
         {{ currentTitlte }}
       </div>
     </div>
-    <Segmented v-model="activeTab" :tabs="tabs" class="mb8">
+    <Segmented v-model="activeTab" :tabs="tabs" class="mb12">
       <template #calendar>
-        <div flex="~ gap4">
-          <div
-            v-for="(weekday, idx) in weekdays"
-            :key="weekday"
-            class="cursor-pointer"
-            :class="idx === selectedWeekDay ? 'bg-red' : ''"
-            @click="handleSelectWeekDay(idx)"
-          >
-            {{ weekday }}
-          </div>
-        </div>
+        <Segmented v-model="selectedWeekDay" :tabs="weekdays" class="mt4" />
       </template>
       <template #bangumi>
         <div>这是一个番剧的内容</div>
@@ -78,7 +69,7 @@ function handleSelectWeekDay(idx: number) {
         :key="bangumi.id"
         class="group oreo-border rounded-3xl bg-#fafafa w-full cursor-pointer shadow-xs dark:bg-white/20"
       >
-        <div class="mb4 rounded-3xl bg-#fafafa aspect-[1/1] relative overflow-hidden">
+        <div class="rounded-3xl bg-#fafafa aspect-[1/1] relative overflow-hidden">
           <NuxtImg
             :src="bangumi.images.large.replace('http://', 'https://')"
             :alt="bangumi.name_cn || bangumi.name"
@@ -88,6 +79,7 @@ function handleSelectWeekDay(idx: number) {
             densities="x1 x2"
             class="h-full w-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-250 ease-in-out op0 group-hover:op100" />
           <div
             v-if="bangumi.rating"
             class="px1.5 py0.5 rounded-full bg-white/50 items-center left-4 top-4 absolute backdrop-blur dark:bg-#121212/50"
@@ -99,13 +91,17 @@ function handleSelectWeekDay(idx: number) {
             </div>
           </div>
         </div>
-        <div class="px4 pb8" flex="~ col">
+        <div class="p4" flex="~ col">
           <div class="w-full" flex="~ col gap0.5">
             <div class="text-sm font-bold line-clamp-1">
               {{ bangumi.name_cn || bangumi.name }}
             </div>
-            <div class="text-12px op50 line-clamp-1">
+            <div class="text-12px mb0.5 op50 line-clamp-1">
               {{ bangumi.name }}
+            </div>
+            <div class="text-12px op50 items-center" flex="~ gap1">
+              <div i-lucide:calendar-range />
+              <span>{{ bangumi.air_date }}</span>
             </div>
           </div>
         </div>

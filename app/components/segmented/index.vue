@@ -7,7 +7,7 @@ const props = defineProps<{
   defaultValue?: string
 }>()
 
-const activeTab = defineModel<string>()
+const activeTab = defineModel<string | number>()
 
 const getDefaultValue = computed(() => {
   return props.defaultValue || props.tabs[0]?.value
@@ -19,7 +19,7 @@ const getDefaultValue = computed(() => {
     v-model="activeTab"
     :default-value="getDefaultValue"
   >
-    <TabsList class="mb8 px1 py2 oreo-border rounded-full inline-flex select-none shadow-xs relative z-100">
+    <TabsList class="px1 py2 oreo-border rounded-full inline-flex select-none shadow-xs relative z-100">
       <AppTabsIndicator />
       <TabsTrigger
         v-for="tab in tabs"

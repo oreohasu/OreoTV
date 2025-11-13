@@ -30,6 +30,7 @@ const navs = computed(() => {
         class="text-lg py1.5 pl4 pr2 oreo-border rounded-full bg-white/20 shadow-xs items-center justify-center backdrop-blur dark:bg-#121212/50"
         flex="~ gap3"
       >
+        <div i-lucide-search class="op50 cursor-pointer transition-opacity duration-250 hover:op100" />
         <DarkToggle class="op50 cursor-pointer transition-opacity duration-250 hover:op100" />
         <AvatarRoot class="align-middle rounded-full inline-flex h8 w8 select-none items-center justify-center overflow-hidden">
           <AvatarImage
