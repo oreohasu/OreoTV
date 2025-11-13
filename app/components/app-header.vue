@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { appName } from '~/constants'
 
+const route = useRoute()
+
 const { y } = useWindowScroll({ behavior: 'smooth' })
 const isScrolled = computed(() => y.value > 20)
+
+const activeNav = ref(route.path)
 
 const navs = computed(() => {
   return [
@@ -25,7 +29,7 @@ const navs = computed(() => {
       >
         {{ appName }}
       </span>
-      <Navigator :navs="navs" />
+      <Navigator v-model="activeNav" :navs="navs" />
       <div
         class="text-lg py1.5 pl4 pr2 oreo-border rounded-full bg-white/20 shadow-xs items-center justify-center backdrop-blur dark:bg-#121212/50"
         flex="~ gap3"
