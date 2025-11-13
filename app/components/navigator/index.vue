@@ -7,10 +7,18 @@ const props = defineProps<{
   defaultValue?: string
 }>()
 
+const router = useRouter()
+
 const activeNav = defineModel<string>()
 
 const getDefaultValue = computed(() => {
   return props.defaultValue || props.navs[0]?.path
+})
+
+watch(activeNav, (newVal) => {
+  router.push({ path: newVal })
+}, {
+  immediate: true,
 })
 </script>
 
@@ -32,10 +40,7 @@ const getDefaultValue = computed(() => {
             : 'op50 hover:op100',
         ]"
       >
-        <div
-          class="items-center justify-center"
-          flex="~ gap2"
-        >
+        <div class="items-center justify-center" flex="~ gap2">
           <div :class="nav.icon" class="text-lg" />
           <span> {{ nav.name }}</span>
         </div>
