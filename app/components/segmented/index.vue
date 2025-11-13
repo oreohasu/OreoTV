@@ -19,7 +19,7 @@ const getDefaultValue = computed(() => {
     v-model="activeTab"
     :default-value="getDefaultValue"
   >
-    <TabsList class="px1 py2 oreo-border rounded-full inline-flex select-none shadow-xs relative z-100">
+    <TabsList class="px1 py2 oreo-border rounded-full inline-flex select-none shadow-xs relative z-50">
       <AppTabsIndicator />
       <TabsTrigger
         v-for="tab in tabs"

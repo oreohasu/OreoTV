@@ -17,7 +17,7 @@ const navs = computed(() => {
 </script>
 
 <template>
-  <div class="left-40 right-40 fixed z-50">
+  <div class="left-40 right-40 fixed z-100">
     <div class="items-center justify-between" flex="~">
       <span
         :class="isScrolled ? 'op0' : 'op100'"
