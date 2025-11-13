@@ -1,10 +1,10 @@
 <template>
-  <div px40 pb8 pt12 flex="~ col gap8">
+  <div class="px40 py12" flex="~ col">
     <AppHeader />
-    <main mt32 items-center flex="~ col">
+    <main class="mt50 items-center" flex="~ col">
       <slot />
       <Footer />
-      <div text-sm mx-auto mt-5 text-center opacity-25>
+      <div class="text-sm mx-auto mt5 text-center op25">
         [Page Layout]
       </div>
     </main>

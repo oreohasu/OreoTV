@@ -39,22 +39,22 @@ function handleSelectWeekDay(idx: number) {
 </script>
 
 <template>
-  <div flex="~ col" w-full>
-    <div flex="~ col gap2" mb8>
-      <div text-5xl text-gray-900 font-bold dark:text-white>
+  <div class="w-full" flex="~ col">
+    <div class="mb8" flex="~ col gap2">
+      <div class="text-5xl text-gray-900 font-bold dark:text-white">
         动漫
       </div>
-      <div op50>
+      <div class="op50">
         {{ currentTitlte }}
       </div>
     </div>
-    <Segmented v-model="activeTab" :tabs="tabs" mb8>
+    <Segmented v-model="activeTab" :tabs="tabs" class="mb8">
       <template #calendar>
         <div flex="~ gap4">
           <div
             v-for="(weekday, idx) in weekdays"
             :key="weekday"
-            cursor-pointer
+            class="cursor-pointer"
             :class="idx === selectedWeekDay ? 'bg-red' : ''"
             @click="handleSelectWeekDay(idx)"
           >
@@ -71,29 +71,42 @@ function handleSelectWeekDay(idx: number) {
     </Segmented>
     <div
       v-if="activeTab === 'calendar' && calendarData"
-      class="gap-x-12 gap-y-20 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))]"
+      class="gap-x-12 gap-y-20 grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))]"
     >
       <div
         v-for="bangumi in currentCalendarData?.items"
         :key="bangumi.id"
-        class="group w-full cursor-pointer relative"
+        class="group oreo-border rounded-3xl bg-#fafafa w-full cursor-pointer shadow-xs dark:bg-white/20"
       >
-        <div class="rounded-xl bg-gray-200 aspect-[2/3] relative overflow-hidden">
+        <div class="mb4 rounded-3xl bg-#fafafa aspect-[1/1] relative overflow-hidden">
           <NuxtImg
             :src="bangumi.images.large"
             :alt="bangumi.name_cn || bangumi.name"
             loading="lazy"
-            placeholder
-            h-full w-full object-cover
-            sizes="180px"
+            quality="100"
+            format="webp"
+            densities="x1 x2"
+            class="h-full w-full object-cover"
           />
-        </div>
-        <div flex="~ col gap0.5" mt2 w-full>
-          <div line-clamp-1>
-            {{ bangumi.name_cn || bangumi.name }}
+          <div
+            v-if="bangumi.rating"
+            class="px1.5 py0.5 rounded-full bg-white/50 items-center left-4 top-4 absolute backdrop-blur dark:bg-#121212/50"
+            flex="~ gap1"
+          >
+            <div i-material-symbols:kid-star class="text-sm text-#f9d114" />
+            <div class="text-12px">
+              {{ bangumi.rating.score }}
+            </div>
           </div>
-          <div text-sm op50 line-clamp-1>
-            {{ bangumi.name }}
+        </div>
+        <div class="px4 pb8" flex="~ col">
+          <div class="w-full" flex="~ col gap0.5">
+            <div class="text-sm font-bold line-clamp-1">
+              {{ bangumi.name_cn || bangumi.name }}
+            </div>
+            <div class="text-12px op50 line-clamp-1">
+              {{ bangumi.name }}
+            </div>
           </div>
         </div>
       </div>

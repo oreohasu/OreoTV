@@ -16,6 +16,10 @@ interface BangumiCalendarItem {
   name_cn: string
   air_date: string
   air_weekday: number
+  url?: string
+  rating?: {
+    score: string
+  }
   images: {
     large: string
     common: string

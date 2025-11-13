@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SegmentedItem } from './types'
-import TabsIndicator from './tabs-indicator.vue'
+import AppTabsIndicator from '../app-tabs-indicator.vue'
 
 const props = defineProps<{
   tabs: SegmentedItem[]
@@ -19,11 +19,8 @@ const getDefaultValue = computed(() => {
     v-model="activeTab"
     :default-value="getDefaultValue"
   >
-    <TabsList
-      mb8 px1 py2 rounded-full inline-flex shadow-xs relative
-      border="~ solid #e5e5e5 dark:#36363a dark:bg-#262626"
-    >
-      <TabsIndicator />
+    <TabsList class="mb8 px1 py2 oreo-border rounded-full inline-flex select-none shadow-xs relative z-100">
+      <AppTabsIndicator />
       <TabsTrigger
         v-for="tab in tabs"
         :key="tab.value"

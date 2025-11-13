@@ -20,7 +20,7 @@
     "@iconify-json/carbon": "catalog:icons",
     "@iconify-json/lucide": "catalog:icons",
     "@iconify-json/lucide-lab": "catalog:icons",
-    "@iconify-json/twemoji": "catalog:icons",
+    "@iconify-json/material-symbols": "catalog:icons",
     "@nuxt/devtools": "catalog:build",
     "@nuxt/eslint": "catalog:build",
     "@nuxt/image": "catalog:build",
