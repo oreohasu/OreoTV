@@ -69,28 +69,29 @@ const currentCalendarData = computed(() => {
         :key="bangumi.id"
         class="group oreo-border rounded-3xl bg-#fafafa w-full cursor-pointer shadow-xs dark:bg-white/20"
       >
-        <div class="rounded-3xl bg-#fafafa aspect-[1/1] relative overflow-hidden">
-          <NuxtImg
-            :src="bangumi.images.large.replace('http://', 'https://')"
-            :alt="bangumi.name_cn || bangumi.name"
-            loading="lazy"
-            quality="100"
-            format="webp"
-            densities="x1 x2"
-            class="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-250 ease-in-out op0 group-hover:op100" />
-          <div
-            v-if="bangumi.rating"
-            class="px1.5 py0.5 rounded-full bg-white/50 items-center left-4 top-4 absolute backdrop-blur dark:bg-#121212/50"
-            flex="~ gap1"
-          >
-            <div i-material-symbols:kid-star class="text-sm text-#f9d114" />
-            <div class="text-12px">
-              {{ bangumi.rating.score }}
+        <CommonImage
+          :src="bangumi.images?.large?.replace('http://', 'https://') || ''"
+          :alt="bangumi.name_cn || bangumi.name || ''"
+          class="mb4"
+        >
+          <template #overlay>
+            <div
+              class="opacity-0 transition-opacity duration-300 ease-in-out inset-0 absolute from-black/80 to-transparent via-black/20 bg-gradient-to-t group-hover:opacity-100"
+            />
+          </template>
+          <template #badge>
+            <div
+              v-if="bangumi.rating"
+              class="px1.5 py0.5 rounded-full bg-white/50 items-center left-4 top-4 absolute z-10 backdrop-blur dark:bg-#121212/50"
+              flex="~ gap1"
+            >
+              <div i-material-symbols:kid-star class="text-sm text-#f9d114" />
+              <div class="text-12px">
+                {{ bangumi.rating.score }}
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </CommonImage>
         <div class="p4" flex="~ col">
           <div class="w-full" flex="~ col gap0.5">
             <div class="text-sm font-bold line-clamp-1">
