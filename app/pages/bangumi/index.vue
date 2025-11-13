@@ -80,7 +80,7 @@ function handleSelectWeekDay(idx: number) {
       >
         <div class="mb4 rounded-3xl bg-#fafafa aspect-[1/1] relative overflow-hidden">
           <NuxtImg
-            :src="bangumi.images.large"
+            :src="bangumi.images.large.replace('http://', 'https://')"
             :alt="bangumi.name_cn || bangumi.name"
             loading="lazy"
             quality="100"
